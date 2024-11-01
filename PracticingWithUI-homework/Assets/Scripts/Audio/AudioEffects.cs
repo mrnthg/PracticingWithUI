@@ -1,18 +1,23 @@
 using UnityEngine;
-using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class AudioEffects : MonoBehaviour
 {
-    [SerializeField] private AudioMixerGroup _mixerSoundEffect;
-    
-    private string _effectVolumeName = "EffectVolume";
-    private float _minSliderValue = 0.0001f;
-    private float _maxSliderValue = 1f;
-    private float _correctionNumber = 20f;
+    [SerializeField] private Button _button;
+    [SerializeField] private AudioSource _audioSource;
 
-    public void ChangeEffectVolume(float volume)
+    private void OnEnable()
     {
-        volume = Mathf.Clamp(volume, _minSliderValue, _maxSliderValue);
-        _mixerSoundEffect.audioMixer.SetFloat(_effectVolumeName, Mathf.Log10(volume) * _correctionNumber);
+        _button.onClick.AddListener(Play);
+    }
+
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(Play);
+    }
+
+    private void Play()
+    {
+        _audioSource.Play();
     }
 }
